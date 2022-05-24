@@ -195,7 +195,9 @@ func (d *differ) typeChanged(obj types.Object, part string, old, new types.Type)
 	new = removeNamesFromSignature(new)
 	olds := types.TypeString(old, types.RelativeTo(d.old))
 	news := types.TypeString(new, types.RelativeTo(d.new))
-	d.incompatible(obj, part, "changed from %s to %s", olds, news)
+	if olds != news {
+		d.incompatible(obj, part, "changed from %s to %s", olds, news)
+	}
 }
 
 // go/types always includes the argument and result names when formatting a signature.

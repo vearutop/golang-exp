@@ -1,6 +1,7 @@
 package apidiff
 
 import (
+	"fmt"
 	"go/types"
 	"sort"
 )
@@ -125,8 +126,11 @@ func (d *differ) corr(old, new types.Type, p *ifacePair) bool {
 			return d.establishCorrespondence(old, new)
 		}
 
+	case *types.TypeParam:
+		return old.String() == new.String()
+
 	default:
-		panic("unknown type kind")
+		panic(fmt.Sprintf("unknown type kind: %T", old))
 	}
 	return false
 }
